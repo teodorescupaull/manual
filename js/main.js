@@ -134,15 +134,20 @@ $(function() {
 
     // Funcția de configurare a butoanelor de navigare
     function setupNavigationButtons() {
-        // Elimină butoanele existente pentru a evita duplicarea
-        $('.nav-arrow').remove();
+        console.log("Setup navigation buttons called"); // Pentru debugging
 
-        // Adaugă butoanele
-        $wrapper.append('<div class="nav-arrow prev-arrow">&#10094;</div>');
-        $wrapper.append('<div class="nav-arrow next-arrow">&#10095;</div>');
+        // Verifică dacă butoanele există deja
+        if ($('.nav-arrow').length === 0) {
+            console.log("Adding navigation buttons"); // Pentru debugging
 
-        // Adaugă funcționalitatea
+            // Adaugă butoanele
+            $wrapper.append('<div class="nav-arrow prev-arrow">&#10094;</div>');
+            $wrapper.append('<div class="nav-arrow next-arrow">&#10095;</div>');
+        }
+
+        // Adaugă funcționalitatea (se poate aplica indiferent dacă butoanele au fost adăugate manual sau prin JavaScript)
         $('.prev-arrow').off('click').on('click', function() {
+            console.log("Previous button clicked"); // Pentru debugging
             const page = $viewer.turn('page');
             const display = $viewer.turn('display');
             const step = display === 'double' ? 2 : 1;
@@ -153,6 +158,7 @@ $(function() {
         });
 
         $('.next-arrow').off('click').on('click', function() {
+            console.log("Next button clicked"); // Pentru debugging
             const page = $viewer.turn('page');
             const max = $viewer.turn('pages');
             const display = $viewer.turn('display');
@@ -184,4 +190,11 @@ $(function() {
     // Apel inițial pentru butoanele de navigare
     setupNavigationButtons();
     scaleManual(getDisplayMode());
+
+    // Asigură-te că funcția este apelată după ce DOM-ul este complet încărcat
+    $(document).ready(function() {
+        setTimeout(function() {
+            setupNavigationButtons();
+        }, 500); // Oferă timp pentru ca turn.js să fie inițializat complet
+    });
 });
