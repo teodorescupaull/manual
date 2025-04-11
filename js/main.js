@@ -98,6 +98,7 @@ $(function() {
             },
             ready: function() {
                 scaleManual(getDisplayMode());
+                setupNavigationButtons(); // Adaugă apelul aici
             }
         }
     });
@@ -109,7 +110,10 @@ $(function() {
 
         $viewer.turn('display', newDisplay);
         $viewer.turn('page', fixedPage);
-        setTimeout(() => scaleManual(newDisplay), 10);
+        setTimeout(() => {
+            scaleManual(newDisplay);
+            setupNavigationButtons(); // Reafișează butoanele după redimensionare
+        }, 300);
     });
 
     // Navigare cu tastele ← și →
@@ -128,5 +132,56 @@ $(function() {
         }
     });
 
+    // Funcția de configurare a butoanelor de navigare
+    function setupNavigationButtons() {
+        // Elimină butoanele existente pentru a evita duplicarea
+        $('.nav-arrow').remove();
+
+        // Adaugă butoanele
+        $wrapper.append('<div class="nav-arrow prev-arrow">&#10094;</div>');
+        $wrapper.append('<div class="nav-arrow next-arrow">&#10095;</div>');
+
+        // Adaugă funcționalitatea
+        $('.prev-arrow').off('click').on('click', function() {
+            const page = $viewer.turn('page');
+            const display = $viewer.turn('display');
+            const step = display === 'double' ? 2 : 1;
+
+            if (page > 1) {
+                $viewer.turn('page', Math.max(1, page - step));
+            }
+        });
+
+        $('.next-arrow').off('click').on('click', function() {
+            const page = $viewer.turn('page');
+            const max = $viewer.turn('pages');
+            const display = $viewer.turn('display');
+            const step = display === 'double' ? 2 : 1;
+
+            if (page < max) {
+                $viewer.turn('page', Math.min(max, page + step));
+            }
+        });
+
+        updateArrows();
+    }
+
+    // Actualizează vizibilitatea săgeților în funcție de pagina curentă
+    function updateArrows() {
+        const page = $viewer.turn('page');
+        const max = $viewer.turn('pages');
+
+        $('.prev-arrow').css('opacity', page <= 1 ? '0.2' : '0.7');
+        $('.next-arrow').css('opacity', page >= max ? '0.2' : '0.7');
+    }
+
+    // Apelăm funcția inițial și la schimbarea paginii
+    updateArrows();
+    $viewer.on('turned', function() {
+        updateArrows();
+    });
+
+    // Apel inițial pentru butoanele de navigare
+    setupNavigationButtons();
     scaleManual(getDisplayMode());
 });
