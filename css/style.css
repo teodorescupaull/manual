@@ -16,7 +16,8 @@ body {
     transform-origin: top left;
     background: white;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
+    overflow: visible;
+    /* Schimbă din overflow:hidden pentru a permite butoanelor să fie vizibile */
 }
 
 #manual-viewer {
@@ -55,6 +56,42 @@ body {
 }
 
 
+/* Stiluri pentru butoanele de navigare */
+
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 9999;
+    /* Crește z-index-ul pentru a asigura vizibilitatea */
+    transition: background-color 0.3s, opacity 0.3s;
+    pointer-events: auto;
+    /* Asigură că evenimentele mouse sunt captate */
+}
+
+.prev-arrow {
+    left: 10px;
+}
+
+.next-arrow {
+    right: 10px;
+}
+
+.nav-arrow:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+
 /* Adaugă în css/style.css */
 
 @media screen and (max-width: 768px) {
@@ -65,5 +102,16 @@ body {
         top: 0 !important;
         position: fixed !important;
         height: 100% !important;
+    }
+    .nav-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+    }
+    .prev-arrow {
+        left: 15px;
+    }
+    .next-arrow {
+        right: 15px;
     }
 }
