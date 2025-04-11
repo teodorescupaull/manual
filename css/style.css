@@ -53,3 +53,17 @@ body {
     transition: left 0.3s ease, margin-left 0.3s ease, visibility 0.3s ease;
     position: absolute !important;
 }
+
+
+/* Adaugă în css/style.css */
+
+@media screen and (max-width: 768px) {
+    .manual-wrapper {
+        width: 100% !important;
+        transform: none !important;
+        left: 0 !important;
+        top: 0 !important;
+        position: fixed !important;
+        height: 100% !important;
+    }
+}
