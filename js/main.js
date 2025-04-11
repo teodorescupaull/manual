@@ -17,7 +17,7 @@ $(function() {
     });
 
     function getDisplayMode() {
-        return $(window).width() >= 900 ? 'double' : 'single';
+        return $(window).width() >= 768 ? 'double' : 'single';
     }
 
     function scaleManual(displayMode) {
@@ -31,21 +31,44 @@ $(function() {
         const winH = window.innerHeight;
         const scale = Math.min(winW / viewerW, winH / viewerH);
 
-        $wrapper.css({
-            width: `${viewerW}px`,
-            height: `${viewerH}px`,
-            left: '50%',
-            top: '50%',
-            position: 'absolute',
-            transform: `translate(-50%, -50%) scale(${scale})`,
-            transformOrigin: 'center center'
-        });
+        // Verifică dacă este dispozitiv mobil
+        const isMobile = window.innerWidth <= 768;
 
+        if (isMobile) {
+            $wrapper.css({
+                width: '100%',
+                height: '100%',
+                left: '0',
+                top: '0',
+                position: 'fixed',
+                transform: 'none'
+            });
 
-        $viewer.css({
-            width: `${viewerW}px`,
-            height: `${viewerH}px`
-        });
+            $viewer.css({
+                width: `${viewerW}px`,
+                height: `${viewerH}px`,
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: `translate(-50%, -50%) scale(${scale * 0.95})`,
+                transformOrigin: 'center center'
+            });
+        } else {
+            $wrapper.css({
+                width: `${viewerW}px`,
+                height: `${viewerH}px`,
+                left: '50%',
+                top: '50%',
+                position: 'absolute',
+                transform: `translate(-50%, -50%) scale(${scale})`,
+                transformOrigin: 'center center'
+            });
+
+            $viewer.css({
+                width: `${viewerW}px`,
+                height: `${viewerH}px`
+            });
+        }
 
         $viewer.turn('size', viewerW, viewerH);
         $viewer.turn('resize');
