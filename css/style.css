@@ -77,6 +77,9 @@ body {
     transition: background-color 0.3s, opacity 0.3s;
     pointer-events: auto;
     /* Asigură că evenimentele mouse sunt captate */
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .prev-arrow {
